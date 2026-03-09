@@ -12,9 +12,9 @@ const devices = [
 ];
 
 const statusConfig: Record<string, { label: string; icon: typeof Wifi; color: string; bg: string }> = {
-  online: { label: "在线", icon: Wifi, color: "text-accent", bg: "bg-accent/15" },
-  offline: { label: "离线", icon: WifiOff, color: "text-destructive", bg: "bg-destructive/15" },
-  maintenance: { label: "维护中", icon: Wrench, color: "text-warning", bg: "bg-warning/15" },
+  online: { label: "在线", icon: Wifi, color: "text-accent", bg: "bg-accent/10 border border-accent/25" },
+  offline: { label: "离线", icon: WifiOff, color: "text-destructive", bg: "bg-destructive/10 border border-destructive/25" },
+  maintenance: { label: "维护", icon: Wrench, color: "text-warning", bg: "bg-warning/10 border border-warning/25" },
 };
 
 const typeStats = [
@@ -25,25 +25,27 @@ const typeStats = [
 ];
 
 const DeviceManagement = () => (
-  <div className="space-y-6">
+  <div className="space-y-5 pb-8">
+    <h2 className="section-title title-decorated">设备管理</h2>
+
     {/* Device Type Stats */}
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {typeStats.map((ts) => (
-        <div key={ts.type} className="glass-card p-5">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-primary/15 flex items-center justify-center">
+        <div key={ts.type} className="tech-card corner-decoration p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-11 h-11 rounded-sm bg-primary/10 border border-primary/20 flex items-center justify-center">
               <ts.icon className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">{ts.type}</div>
-              <div className="font-display text-2xl font-bold">{ts.total}</div>
+              <div className="text-[10px] font-display tracking-widest text-muted-foreground uppercase">{ts.type}</div>
+              <div className="font-display text-2xl font-bold text-primary glow-text">{ts.total}</div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-accent">在线 {ts.online}</span>
+          <div className="flex items-center justify-between text-[10px] font-heading mb-2">
+            <span className="text-accent font-semibold">在线 {ts.online}</span>
             <span className="text-muted-foreground">离线 {ts.total - ts.online}</span>
           </div>
-          <div className="progress-bar mt-2">
+          <div className="progress-bar">
             <div className="progress-bar-fill" style={{ width: `${(ts.online / ts.total) * 100}%` }} />
           </div>
         </div>
@@ -51,44 +53,41 @@ const DeviceManagement = () => (
     </div>
 
     {/* Devices Table */}
-    <div className="glass-card p-5">
-      <h2 className="section-title flex items-center gap-2 mb-4">
+    <div className="tech-card corner-decoration p-5">
+      <h3 className="section-title title-decorated text-sm mb-4 flex items-center gap-2">
         <Server className="w-4 h-4 text-primary" />
         设备列表
-      </h2>
+      </h3>
       <div className="overflow-x-auto">
         <table className="data-table">
           <thead>
-            <tr><th>编号</th><th>名称</th><th>类型</th><th>分区</th><th>状态</th><th>IP地址</th><th>运行时长</th><th>CPU</th><th>内存</th><th>固件</th></tr>
+            <tr><th>编号</th><th>名称</th><th>类型</th><th>分区</th><th>状态</th><th>IP</th><th>运行</th><th>CPU</th><th>内存</th><th>固件</th></tr>
           </thead>
           <tbody>
             {devices.map((d) => {
               const st = statusConfig[d.status];
               return (
                 <tr key={d.id}>
-                  <td className="font-display text-primary">{d.id}</td>
-                  <td className="font-medium">{d.name}</td>
-                  <td className="text-muted-foreground">{d.type}</td>
-                  <td>{d.zone}</td>
+                  <td className="font-display text-primary text-xs">{d.id}</td>
+                  <td className="font-heading font-semibold">{d.name}</td>
+                  <td className="text-muted-foreground text-xs font-heading">{d.type}</td>
+                  <td className="font-heading">{d.zone}</td>
                   <td>
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${st.color} ${st.bg}`}>
-                      <st.icon className="w-3 h-3" />
-                      {st.label}
+                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] font-display font-bold ${st.color} ${st.bg}`}>
+                      <st.icon className="w-3 h-3" />{st.label}
                     </span>
                   </td>
-                  <td className="font-mono text-xs text-muted-foreground">{d.ip}</td>
-                  <td className="text-sm">
-                    <span className="flex items-center gap-1 text-muted-foreground">
-                      <Clock className="w-3 h-3" />{d.uptime}
-                    </span>
+                  <td className="font-mono text-[10px] text-muted-foreground">{d.ip}</td>
+                  <td className="text-xs font-heading text-muted-foreground flex items-center gap-1">
+                    <Clock className="w-3 h-3" />{d.uptime}
                   </td>
                   <td>
                     {d.cpu > 0 && (
                       <div className="flex items-center gap-2">
                         <div className="progress-bar w-12">
-                          <div className="progress-bar-fill" style={{ width: `${d.cpu}%`, background: d.cpu > 80 ? '#ff4444' : undefined }} />
+                          <div className="progress-bar-fill" style={{ width: `${d.cpu}%`, background: d.cpu > 80 ? '#f44336' : undefined }} />
                         </div>
-                        <span className="text-xs">{d.cpu}%</span>
+                        <span className="text-[10px] font-display">{d.cpu}%</span>
                       </div>
                     )}
                   </td>
@@ -96,13 +95,13 @@ const DeviceManagement = () => (
                     {d.mem > 0 && (
                       <div className="flex items-center gap-2">
                         <div className="progress-bar w-12">
-                          <div className="progress-bar-fill" style={{ width: `${d.mem}%`, background: d.mem > 80 ? '#ff4444' : undefined }} />
+                          <div className="progress-bar-fill" style={{ width: `${d.mem}%`, background: d.mem > 80 ? '#f44336' : undefined }} />
                         </div>
-                        <span className="text-xs">{d.mem}%</span>
+                        <span className="text-[10px] font-display">{d.mem}%</span>
                       </div>
                     )}
                   </td>
-                  <td className="text-xs text-muted-foreground">{d.firmware}</td>
+                  <td className="text-[10px] text-muted-foreground font-display">{d.firmware}</td>
                 </tr>
               );
             })}

@@ -13,24 +13,23 @@ const envParams = [
   { label: "室外温度", value: "31.5°C", icon: ThermometerSun, color: "text-warning" },
   { label: "室外湿度", value: "72%", icon: Droplets, color: "text-primary" },
   { label: "风速", value: "3.2 m/s", icon: Wind, color: "text-accent" },
-  { label: "光照强度", value: "45,000 lux", icon: Sun, color: "text-warning" },
+  { label: "光照", value: "45K lux", icon: Sun, color: "text-warning" },
   { label: "气压", value: "1013 hPa", icon: Gauge, color: "text-primary" },
   { label: "空气质量", value: "优", icon: Fan, color: "text-accent" },
 ];
 
 const schedules = [
   { time: "06:00", action: "启动制冷系统", target: "全区空调", detail: "目标温度逐步降至设定值", status: "已执行" },
-  { time: "08:00", action: "切换高速风", target: "A/B区空调", detail: "早高峰开门频繁，加大冷量", status: "已执行" },
-  { time: "12:00", action: "午间节能模式", target: "C/D区空调", detail: "降低风速，温度上浮1°C", status: "已执行" },
+  { time: "08:00", action: "切换高速风", target: "A/B区空调", detail: "早高峰开门频繁加大冷量", status: "已执行" },
+  { time: "12:00", action: "午间节能模式", target: "C/D区空调", detail: "降低风速温度上浮1°C", status: "已执行" },
   { time: "14:00", action: "恢复正常模式", target: "C/D区空调", detail: "恢复设定温度和风速", status: "执行中" },
-  { time: "18:00", action: "夜间节能", target: "全区空调", detail: "温度上浮2°C，低速运行", status: "待执行" },
+  { time: "18:00", action: "夜间节能", target: "全区空调", detail: "温度上浮2°C低速运行", status: "待执行" },
   { time: "22:00", action: "最低功率运行", target: "E/F区空调", detail: "维持最低温控需求", status: "待执行" },
 ];
 
 const statusColor: Record<string, string> = {
-  "运行": "text-accent bg-accent/15",
-  "待机": "text-muted-foreground bg-secondary",
-  "故障": "text-destructive bg-destructive/15",
+  "运行": "text-accent bg-accent/10 border border-accent/25",
+  "待机": "text-muted-foreground bg-muted border border-border",
 };
 
 const scheduleColor: Record<string, string> = {
@@ -40,71 +39,73 @@ const scheduleColor: Record<string, string> = {
 };
 
 const EnvironmentControl = () => (
-  <div className="space-y-6">
-    {/* Environment Params */}
+  <div className="space-y-5 pb-8">
+    <h2 className="section-title title-decorated">环境控制</h2>
+
+    {/* Env Params */}
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       {envParams.map((p) => (
-        <div key={p.label} className="glass-card p-4 text-center">
+        <div key={p.label} className="tech-card p-4 text-center hover:tech-card-accent transition-all duration-300">
           <p.icon className={`w-6 h-6 mx-auto mb-2 ${p.color}`} />
-          <div className="text-xs text-muted-foreground mb-1">{p.label}</div>
+          <div className="text-[9px] font-display tracking-[0.2em] text-muted-foreground uppercase mb-1">{p.label}</div>
           <div className="font-display font-bold text-lg">{p.value}</div>
         </div>
       ))}
     </div>
 
-    {/* HVAC Controls */}
-    <div className="glass-card p-5">
-      <h2 className="section-title flex items-center gap-2 mb-4">
+    {/* HVAC */}
+    <div className="tech-card corner-decoration p-5">
+      <h3 className="section-title title-decorated text-sm mb-4 flex items-center gap-2">
         <Fan className="w-4 h-4 text-primary" />
         暖通设备控制
-      </h2>
+      </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {hvacUnits.map((u) => (
-          <div key={u.id} className="bg-secondary/50 rounded-xl p-4 border border-border/50 hover:border-primary/30 transition-all">
+          <div key={u.id} className="bg-secondary/40 rounded-sm p-4 border border-border/60 hover:border-primary/30 transition-all">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-heading font-semibold">{u.name}</h3>
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusColor[u.status]}`}>{u.status}</span>
+              <h4 className="font-heading font-bold tracking-wider">{u.name}</h4>
+              <span className={`text-[10px] px-2 py-0.5 rounded-sm font-display font-bold ${statusColor[u.status]}`}>{u.status}</span>
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <span className="text-xs text-muted-foreground">覆盖区域</span>
-                <div className="font-medium">{u.zone}</div>
+                <span className="text-[9px] font-display tracking-widest text-muted-foreground">ZONE</span>
+                <div className="font-heading font-semibold">{u.zone}</div>
               </div>
               <div>
-                <span className="text-xs text-muted-foreground">运行模式</span>
-                <div className="font-medium text-primary">{u.mode}</div>
+                <span className="text-[9px] font-display tracking-widest text-muted-foreground">MODE</span>
+                <div className="font-heading font-semibold text-primary">{u.mode}</div>
               </div>
               {u.setTemp !== 0 && (
                 <>
                   <div>
-                    <span className="text-xs text-muted-foreground">设定温度</span>
-                    <div className="font-display font-bold">{u.setTemp}°C</div>
+                    <span className="text-[9px] font-display tracking-widest text-muted-foreground">SET</span>
+                    <div className="font-display font-bold text-lg">{u.setTemp}°C</div>
                   </div>
                   <div>
-                    <span className="text-xs text-muted-foreground">当前温度</span>
-                    <div className="font-display font-bold text-primary">{u.currentTemp}°C</div>
+                    <span className="text-[9px] font-display tracking-widest text-muted-foreground">CURRENT</span>
+                    <div className="font-display font-bold text-lg text-primary glow-text">{u.currentTemp}°C</div>
                   </div>
                 </>
               )}
               <div>
-                <span className="text-xs text-muted-foreground">负载</span>
-                <div className="flex items-center gap-2">
+                <span className="text-[9px] font-display tracking-widest text-muted-foreground">LOAD</span>
+                <div className="flex items-center gap-2 mt-1">
                   <div className="progress-bar flex-1">
                     <div className="progress-bar-fill" style={{ width: `${u.power}%` }} />
                   </div>
-                  <span className="text-xs font-display">{u.power}%</span>
+                  <span className="text-[10px] font-display">{u.power}%</span>
                 </div>
               </div>
               <div>
-                <span className="text-xs text-muted-foreground">风速</span>
-                <div className="font-medium">{u.fan}</div>
+                <span className="text-[9px] font-display tracking-widest text-muted-foreground">FAN</span>
+                <div className="font-heading font-semibold">{u.fan}</div>
               </div>
             </div>
             <div className="flex gap-2 mt-3 pt-3 border-t border-border/30">
-              <button className="flex-1 py-1.5 text-xs rounded-lg bg-primary/15 text-primary hover:bg-primary/25 transition-colors flex items-center justify-center gap-1">
+              <button className="flex-1 py-1.5 text-[10px] font-display tracking-wider rounded-sm bg-primary/10 border border-primary/25 text-primary hover:bg-primary/20 transition-colors flex items-center justify-center gap-1">
                 <ArrowUpDown className="w-3 h-3" />调温
               </button>
-              <button className="flex-1 py-1.5 text-xs rounded-lg bg-secondary text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-1">
+              <button className="flex-1 py-1.5 text-[10px] font-display tracking-wider rounded-sm bg-secondary border border-border text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-1">
                 <Power className="w-3 h-3" />开关
               </button>
             </div>
@@ -114,26 +115,26 @@ const EnvironmentControl = () => (
     </div>
 
     {/* Schedule */}
-    <div className="glass-card p-5">
-      <h2 className="section-title flex items-center gap-2 mb-4">
+    <div className="tech-card corner-decoration p-5">
+      <h3 className="section-title title-decorated text-sm mb-4 flex items-center gap-2">
         <Gauge className="w-4 h-4 text-primary" />
-        智能调度计划
-      </h2>
+        智能调度
+      </h3>
       <div className="relative">
-        <div className="absolute left-[72px] top-0 bottom-0 w-px bg-border/50" />
-        <div className="space-y-4">
+        <div className="absolute left-[72px] top-0 bottom-0 w-px" style={{ background: 'linear-gradient(180deg, hsl(205 100% 55% / 0.4), hsl(205 100% 55% / 0.1))' }} />
+        <div className="space-y-3">
           {schedules.map((s, i) => (
             <div key={i} className="flex items-start gap-4 pl-2">
-              <div className="font-display text-sm text-primary w-12 text-right shrink-0 pt-0.5">{s.time}</div>
+              <div className="font-display text-xs text-primary w-12 text-right shrink-0 pt-1 tracking-wider">{s.time}</div>
               <div className="relative">
-                <div className={`w-3 h-3 rounded-full border-2 border-primary mt-1.5 ${s.status === "执行中" ? "bg-primary glow-dot text-primary" : "bg-background"}`} />
+                <div className={`w-2.5 h-2.5 rounded-full border-2 border-primary mt-1.5 ${s.status === "执行中" ? "bg-primary glow-dot text-primary" : "bg-background"}`} />
               </div>
-              <div className="flex-1 bg-secondary/30 rounded-lg p-3">
+              <div className="flex-1 bg-secondary/30 border border-border/30 rounded-sm p-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-heading font-semibold text-sm">{s.action}</span>
-                  <span className={`text-xs font-medium ${scheduleColor[s.status]}`}>{s.status}</span>
+                  <span className="font-heading font-bold tracking-wider text-sm">{s.action}</span>
+                  <span className={`text-[10px] font-display font-bold tracking-wider ${scheduleColor[s.status]}`}>{s.status}</span>
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">{s.target} · {s.detail}</div>
+                <div className="text-[10px] text-muted-foreground mt-1 font-heading">{s.target} · {s.detail}</div>
               </div>
             </div>
           ))}
