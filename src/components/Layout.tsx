@@ -3,6 +3,7 @@ import {
   LayoutDashboard, Thermometer, Server, Bell,
   BarChart3, Zap, Wind, Settings
 } from "lucide-react";
+import techBg from "@/assets/tech-bg.jpg";
 
 const navItems = [
   { path: "/", label: "系统总览", icon: LayoutDashboard },
@@ -18,6 +19,11 @@ const navItems = [
 const Layout = () => {
   return (
     <div className="min-h-screen tech-bg">
+      {/* Background image */}
+      <div className="fixed inset-0 z-0">
+        <img src={techBg} alt="" className="w-full h-full object-cover opacity-30" width={1920} height={1080} />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90" />
+      </div>
       {/* Ambient glow spots */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
