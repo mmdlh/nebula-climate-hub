@@ -21,8 +21,8 @@ const Layout = () => {
     <div className="min-h-screen tech-bg">
       {/* Background image */}
       <div className="fixed inset-0 z-0">
-        <img src={techBg} alt="" className="w-full h-full object-cover opacity-30" width={1920} height={1080} />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90" />
+        <img src={techBg} alt="" className="w-full h-full object-cover opacity-50" width={1920} height={1080} />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/30 to-background/50" />
       </div>
       {/* Ambient glow spots */}
       <div className="fixed inset-0 pointer-events-none z-0">
