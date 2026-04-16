@@ -56,12 +56,12 @@ const Layout = () => {
               <Thermometer className="w-4 h-4 text-primary relative z-10" />
             </div>
             <div>
-              <h1 className="text-lg font-display font-bold text-primary glow-text tracking-[0.2em] leading-tight">
-                SMART TEMP
-              </h1>
-              <p className="text-[9px] font-display tracking-[0.3em] text-muted-foreground uppercase">
-                智能温控平台 V3.0
+              <p className="text-[9px] font-display tracking-[0.3em] text-muted-foreground uppercase leading-tight">
+                SMART TEMPERATURE CONTROL
               </p>
+              <h1 className="text-lg font-display font-bold text-primary glow-text tracking-[0.2em] leading-tight">
+                智能温控平台
+              </h1>
             </div>
           </div>
 
