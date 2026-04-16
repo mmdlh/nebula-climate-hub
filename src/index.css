@@ -91,7 +91,7 @@
   /* ===== TECH BORDER CARD ===== */
   .tech-card {
     @apply relative rounded-sm overflow-hidden;
-    background: linear-gradient(135deg, hsl(220 50% 9%) 0%, hsl(222 47% 6%) 100%);
+    background: linear-gradient(135deg, hsl(220 50% 9% / 0.7) 0%, hsl(222 47% 6% / 0.7) 100%);
     border: 1px solid hsl(var(--glass-border));
   }
   .tech-card::before {
