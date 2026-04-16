@@ -26,7 +26,7 @@ const iconBgStyles = {
 };
 
 const StatCard = ({ title, value, unit, icon: Icon, trend, variant = "default" }: StatCardProps) => (
-  <div className="tech-card corner-decoration p-5 group hover:tech-card-accent transition-all duration-300">
+  <div className="tech-card corner-decoration p-5 group hover:tech-card-accent transition-all duration-300 overflow-visible">
     <div className="flex items-start justify-between mb-3">
       <span className="text-[10px] font-display tracking-[0.2em] text-muted-foreground uppercase">{title}</span>
       <div className={`w-9 h-9 rounded-sm ${iconBgStyles[variant]} flex items-center justify-center`}>
